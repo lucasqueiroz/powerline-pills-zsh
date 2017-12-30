@@ -18,4 +18,4 @@ This requires a powerline patched font to work properly. I recommend using one o
 
 ## Screenshots
 
-Coming soon.
+![Screenshot](https://github.com/lucasqueiroz/powerline-pills-zsh/blob/master/screenshot.png?raw=true)
