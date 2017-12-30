@@ -11,7 +11,7 @@ This requires a powerline patched font to work properly. I recommend using one o
 
 1. Clone this repository:  
   `git clone git@github.com:lucasqueiroz/powerline-pills-zsh.git`
-2. Cd into the folder that you cloned
+2. Cd into the folder that you cloned, then into the `install` folder
 3. Run the following command to install the theme (Warning: it will change your current zsh theme!)  
   `./install.zsh`
 4. Reload your terminal (or open a new tab)
