@@ -95,9 +95,7 @@ os_spaces = clean_str(os).size
 
 user = ''
 if show_username
-  unless show_os
-    user = arrow_user + powerline_icon_left
-  end
+  user = arrow_user + powerline_icon_left unless show_os  
   user += background_user + foreground_icon_user + " #{icon_user} "
   user += foreground_user + username + ' '
   user += (show_folder ? background_folder : background_reset) + arrow_user + powerline_icon_right
@@ -113,9 +111,7 @@ user_spaces = clean_str(user).size
 
 folder = ''
 if show_folder
-  unless show_os && show_username
-    folder = arrow_folder + powerline_icon_left
-  end
+  folder = arrow_folder + powerline_icon_left unless show_os && show_username  
   space_before_icon = (show_os && show_username ? true : (show_os || show_username ? false : true))
   folder += background_folder + foreground_icon_folder + (space_before_icon ? ' ' : '') + "#{icon_folder} "
   folder += foreground_folder + dir + ' '
@@ -130,9 +126,7 @@ if git_dir? && show_git
   git  = background_reset + arrow_git+ powerline_icon_left
   git += background_git + foreground_icon_git + " #{icon_branch} "
   git += foreground_git + git_branch_name + ' '
-  if git_modified?
-    git += foreground_icon_dirty_git + icon_dirty + ' '
-  end
+  git += foreground_icon_dirty_git + icon_dirty + ' ' if git_modified?
   git += (show_date ? background_date : background_reset) + arrow_git + powerline_icon_right
 end
 git_spaces = clean_str(git).size
@@ -141,9 +135,7 @@ git_spaces = clean_str(git).size
 
 date = ''
 if show_date
-  unless show_git
-    date += arrow_date + powerline_icon_left
-  end
+  date += arrow_date + powerline_icon_left unless show_git
   date += background_date + foreground_icon_date + " #{icon_date} "
   date += foreground_date + cur_date + ' '
   date += background_reset + arrow_date + powerline_icon_right
