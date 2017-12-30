@@ -1,5 +1,5 @@
-# Takes care of all the git related stuff
-module GitUtil
+# Utilities that helps with the theme
+module Util
   def git_dir?
     system('git rev-parse --short HEAD >/dev/null 2>&1')
   end
@@ -10,5 +10,17 @@ module GitUtil
 
   def git_modified?
     !`git status --porcelain`.empty?
+  end
+
+  def current_os
+    `uname -s`
+  end
+
+  def darwin?
+    current_os.chomp == 'Darwin'
+  end
+  
+  def linux?
+    current_os.chomp == 'Linux'
   end
 end
