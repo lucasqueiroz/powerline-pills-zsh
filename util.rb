@@ -23,4 +23,8 @@ module Util
   def linux?
     current_os.chomp == 'Linux'
   end
+
+  def clean_str(str)
+    str.gsub(/\%f|%k|%F{\d+}|%K{\d+}/, '')
+  end
 end

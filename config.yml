@@ -57,6 +57,16 @@ git:
     # Uncommited changes
     char_dirty: ''
     color_dirty: 11
+# Date
+date:
+  show: true
+  background_color: 6
+  color: 7
+  icon:
+    char: ''
+    color: 7
+  # Follows the bash `date` format
+  format: '%d/%m/%y'
 # CMD
 cmd:
   show: true
