@@ -135,7 +135,7 @@ git_spaces = clean_str(git).size
 
 date = ''
 if show_date
-  date += arrow_date + powerline_icon_left unless show_git
+  date += arrow_date + powerline_icon_left unless git_dir? && show_git
   date += background_date + foreground_icon_date + " #{icon_date} "
   date += foreground_date + cur_date + ' '
   date += background_reset + arrow_date + powerline_icon_right
