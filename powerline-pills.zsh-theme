@@ -1,1 +1,0 @@
-PROMPT='$(ruby $POWERLINE_PILLS/bash.rb $?)'

@@ -11,7 +11,8 @@ echo ""
 
 # Exports current folder to ~/.zshrc
 echo -e "# Powerline Pills Theme" >> $HOME/.zshrc
-variable="export POWERLINE_PILLS=\"$PWD\""
+parent=$(dirname $PWD)
+variable="export POWERLINE_PILLS=\"$parent\""
 echo -e "$variable" >> $HOME/.zshrc
 
 # # Copies theme to custom themes folder
