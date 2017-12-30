@@ -17,7 +17,11 @@ show_os = config['os']['show']
 show_username = config['user']['show']
 show_folder = config['folder']['show']
 show_git = config['git']['show']
+show_date = config['date']['show']
 show_cmd = config['cmd']['show']
+
+date_format = config['date']['format']
+cur_date = `date +#{date_format}`.to_s.chomp
 
 # ICONS
 
@@ -29,6 +33,7 @@ icon_user = config['user']['icon']['char']
 icon_folder = config['folder']['icon']['char']
 icon_branch = config['git']['icon']['char']
 icon_dirty = config['git']['icon']['char_dirty']
+icon_date = config['date']['icon']['char']
 icon_bash = config['cmd']['icon']['char']
 
 # COLORS
@@ -61,6 +66,11 @@ foreground_icon_git = fg_color(config['git']['icon']['color'])
 foreground_icon_dirty_git = fg_color(config['git']['icon']['color_dirty'])
 foreground_git = fg_color(config['git']['color'])
 
+arrow_date = fg_color(config['date']['background_color'])
+background_date = bg_color(config['date']['background_color'])
+foreground_icon_date = fg_color(config['date']['icon']['color'])
+foreground_date = fg_color(config['date']['color'])
+
 arrow_cmd_failed = fg_color(config['cmd']['background_color_failed'])
 background_cmd_failed = bg_color(config['cmd']['background_color_failed'])
 foreground_cmd_failed = fg_color(config['cmd']['color_failed'])
@@ -74,27 +84,23 @@ color = fg_color(config['base']['color'])
 # OS
 
 os = ''
-os_spaces = 0
 if show_os && (darwin? || linux?)
   os  = background_reset + arrow_os + powerline_icon_left
   os += background_os + ' ' + foreground_os + (darwin? ? icon_darwin : icon_linux) + ' '
   os += (show_username ? background_user : (show_folder ? background_folder : background_reset)) + arrow_os + powerline_icon_right
-  os_spaces = (show_username ? 4 : 5)
 end
+os_spaces = clean_str(os).size
 
 # USER
 
 user = ''
-user_spaces = 0
 if show_username
-  unless show_os
-    user = arrow_user + powerline_icon_left
-  end
+  user = arrow_user + powerline_icon_left unless show_os  
   user += background_user + foreground_icon_user + " #{icon_user} "
   user += foreground_user + username + ' '
   user += (show_folder ? background_folder : background_reset) + arrow_user + powerline_icon_right
-  user_spaces = (show_folder ? 7 : 6) + username.length
 end
+user_spaces = clean_str(user).size
 
 # FOLDER
 
@@ -104,38 +110,44 @@ end
 # s
 
 folder = ''
-folder_spaces = 0
 if show_folder
-  unless show_os && show_username
-    folder = arrow_folder + powerline_icon_left
-  end
+  folder = arrow_folder + powerline_icon_left unless show_os && show_username  
   space_before_icon = (show_os && show_username ? true : (show_os || show_username ? false : true))
   folder += background_folder + foreground_icon_folder + (space_before_icon ? ' ' : '') + "#{icon_folder} "
   folder += foreground_folder + dir + ' '
   folder += background_reset + arrow_folder + powerline_icon_right
-  folder_spaces = (show_os ? (show_username ? 4 : 5) : (show_username ? 4 : 6)) + dir.length
 end
+folder_spaces = clean_str(folder).size
 
 # GIT
 
 git = ''
-git_spaces = 0
 if git_dir? && show_git
-  git_spaces += 6 + git_branch_name.length
   git  = background_reset + arrow_git+ powerline_icon_left
   git += background_git + foreground_icon_git + " #{icon_branch} "
   git += foreground_git + git_branch_name + ' '
-  if git_modified?
-    git_spaces += 2
-    git += foreground_icon_dirty_git + icon_dirty + ' '
-  end
-  git += background_reset + arrow_git + powerline_icon_right
+  git += foreground_icon_dirty_git + icon_dirty + ' ' if git_modified?
+  git += (show_date ? background_date : background_reset) + arrow_git + powerline_icon_right
 end
+git_spaces = clean_str(git).size
 
-cmd = ''
+# DATE
+
+date = ''
+if show_date
+  date += arrow_date + powerline_icon_left unless show_git
+  date += background_date + foreground_icon_date + " #{icon_date} "
+  date += foreground_date + cur_date + ' '
+  date += background_reset + arrow_date + powerline_icon_right
+end
+date_spaces = clean_str(date).size
+
+# CMD
+
+cmd = "\n"
 if show_cmd
   success = ARGV[0] == '0'
-  cmd  = background_reset
+  cmd += background_reset
   cmd += ((success) ? arrow_cmd_success : arrow_cmd_failed) + powerline_icon_left
   cmd += (success) ? background_cmd_success + foreground_cmd_success : background_cmd_failed + foreground_cmd_failed
   cmd += " #{icon_bash} " + background_reset
@@ -143,6 +155,6 @@ if show_cmd
   cmd += color + ' '
 end
 
-spaces = size - (os_spaces + user_spaces + folder_spaces + git_spaces)
+spaces = size - (os_spaces + user_spaces + folder_spaces + git_spaces + date_spaces)
 
-puts os + user + folder + (' ' * spaces) + git + cmd
+puts os + user + folder + (' ' * spaces) + git + date + cmd
