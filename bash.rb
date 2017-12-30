@@ -5,13 +5,14 @@ require 'yaml'
 require_relative 'util'
 include Util
 
-config = YAML.load_file('config.yml')
-
 # VARS
 
 username = ENV['USER']
 dir = Dir.pwd
 size = `tput cols`.to_i
+path = ENV['POWERLINE_PILLS']
+
+config = YAML.load_file(path + '/config.yml')
 show_os = config['os']['show']
 show_username = config['user']['show']
 show_folder = config['folder']['show']
