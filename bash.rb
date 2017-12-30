@@ -97,16 +97,22 @@ end
 
 # FOLDER
 
+# so os n
+# so user n
+# user + os s
+# s
+
 folder = ''
 folder_spaces = 0
 if show_folder
   unless show_os && show_username
     folder = arrow_folder + powerline_icon_left
   end
-  folder += background_folder + foreground_icon_folder + (show_os || show_username ? '' : ' ') + "#{icon_folder} "
+  space_before_icon = (show_os && show_username ? true : (show_os || show_username ? false : true))
+  folder += background_folder + foreground_icon_folder + (space_before_icon ? ' ' : '') + "#{icon_folder} "
   folder += foreground_folder + dir + ' '
   folder += background_reset + arrow_folder + powerline_icon_right
-  folder_spaces = (show_os ? (show_username ? 3 : 5) : (show_username ? 4 : 6)) + dir.length
+  folder_spaces = (show_os ? (show_username ? 4 : 5) : (show_username ? 4 : 6)) + dir.length
 end
 
 # GIT
