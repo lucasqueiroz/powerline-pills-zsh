@@ -1,0 +1,61 @@
+# This is the configuration file for the Powerline Pills Theme for ZSH
+
+# Color codes:
+# 0  - Black
+# 1  - Red
+# 2  - Green
+# 3  - Yellow
+# 4  - Blue
+# 5  - Magenta
+# 6  - Cyan
+# 7  - White
+# 8  - Gray
+# 9  - Light Red
+# 10 - Light Green
+# 11 - Light Yellow
+# 12 - Light Blue
+# 13 - Light Magenta
+# 14 - Light Cyan
+
+# Base
+base:
+  powerline_icon_right: ''
+  powerline_icon_left: ''
+  color: 7
+# Username
+user:
+  show: true
+  background_color: 2
+  color: 7
+  icon:
+    char: ''
+    color: 7
+# Folder
+folder:
+  show: true
+  background_color: 8
+  color: 7
+  icon:
+    char: ''
+    color: 7
+# Git
+git:
+  show: true
+  background_color: 9
+  color: 7
+  icon:
+    # Branch icon
+    char: ''
+    color: 7
+    # Uncommited changes
+    char_dirty: ''
+    color_dirty: 11
+# CMD
+cmd:
+  show: true
+  background_color_failed: 1
+  color_failed: 7
+  background_color_success: 4
+  color_success: 7
+  icon:
+    char: ''
