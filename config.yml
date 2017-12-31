@@ -16,6 +16,7 @@
 # 12 - Light Blue
 # 13 - Light Magenta
 # 14 - Light Cyan
+# (If you have the ZSH-256color plugin installed, you can use any of the 256 colors.)
 
 # Base
 base:
