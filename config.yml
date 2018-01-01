@@ -23,16 +23,17 @@ base:
   powerline_icon_right: ''
   powerline_icon_left: ''
   color: 7
+  left_top: ['os', 'user', 'folder']
+  right_top: ['git', 'date']
+  left_bottom: ['cmd']
 # OS Info
 os:
-  show: true
   background_color: 7
   color: 0
   icon_linux: ''
   icon_darwin: ''
 # Username
 user:
-  show: true
   background_color: 2
   color: 7
   icon:
@@ -40,7 +41,6 @@ user:
     color: 7
 # Folder
 folder:
-  show: true
   background_color: 8
   color: 7
   icon:
@@ -48,7 +48,6 @@ folder:
     color: 7
 # Git
 git:
-  show: true
   background_color: 9
   color: 7
   icon:
@@ -60,7 +59,6 @@ git:
     color_dirty: 11
 # Date
 date:
-  show: true
   background_color: 6
   color: 7
   icon:
@@ -70,7 +68,6 @@ date:
   format: '%d/%m/%y'
 # CMD
 cmd:
-  show: true
   background_color_failed: 1
   color_failed: 7
   background_color_success: 4

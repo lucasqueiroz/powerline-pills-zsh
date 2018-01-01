@@ -3,32 +3,30 @@
 
 require 'yaml'
 require_relative 'util'
+require_relative 'pill'
 include Util
 
 # VARS
-
+last_exit = ARGV[0] == '0'
 username = ENV['USER']
 dir = Dir.pwd
 size = `tput cols`.to_i
 path = ENV['POWERLINE_PILLS']
 
 config = YAML.load_file(path + '/config.yml')
-show_os = config['os']['show']
-show_username = config['user']['show']
-show_folder = config['folder']['show']
-show_git = config['git']['show']
-show_date = config['date']['show']
-show_cmd = config['cmd']['show']
 
 date_format = config['date']['format']
 cur_date = `date +#{date_format}`.to_s.chomp
+config_left_top = config['base']['left_top']
+config_right_top = config['base']['right_top']
+config_left_bottom = config['base']['left_bottom']
 
 # ICONS
-
 powerline_icon_right = config['base']['powerline_icon_right']
 powerline_icon_left = config['base']['powerline_icon_left']
 icon_linux = config['os']['icon_linux']
 icon_darwin = config['os']['icon_darwin']
+icon_os = linux? ? icon_linux : icon_darwin
 icon_user = config['user']['icon']['char']
 icon_folder = config['folder']['icon']['char']
 icon_branch = config['git']['icon']['char']
@@ -37,7 +35,6 @@ icon_date = config['date']['icon']['char']
 icon_bash = config['cmd']['icon']['char']
 
 # COLORS
-
 def fg_color(color)
   "%F{#{color}}"
 end
@@ -46,115 +43,108 @@ def bg_color(color)
   "%K{#{color}}"
 end
 
-arrow_os = fg_color(config['os']['background_color'])
 background_os = bg_color(config['os']['background_color'])
 foreground_os = fg_color(config['os']['color'])
 
-arrow_user = fg_color(config['user']['background_color'])
 background_user = bg_color(config['user']['background_color'])
 foreground_icon_user = fg_color(config['user']['icon']['color'])
 foreground_user = fg_color(config['user']['color'])
 
-arrow_folder = fg_color(config['folder']['background_color'])
 background_folder = bg_color(config['folder']['background_color'])
 foreground_icon_folder = fg_color(config['folder']['icon']['color'])
 foreground_folder = fg_color(config['folder']['color'])
 
-arrow_git = fg_color(config['git']['background_color'])
 background_git = bg_color(config['git']['background_color'])
 foreground_icon_git = fg_color(config['git']['icon']['color'])
 foreground_icon_dirty_git = fg_color(config['git']['icon']['color_dirty'])
 foreground_git = fg_color(config['git']['color'])
 
-arrow_date = fg_color(config['date']['background_color'])
 background_date = bg_color(config['date']['background_color'])
 foreground_icon_date = fg_color(config['date']['icon']['color'])
 foreground_date = fg_color(config['date']['color'])
 
-arrow_cmd_failed = fg_color(config['cmd']['background_color_failed'])
 background_cmd_failed = bg_color(config['cmd']['background_color_failed'])
 foreground_cmd_failed = fg_color(config['cmd']['color_failed'])
-arrow_cmd_success = fg_color(config['cmd']['background_color_success'])
 background_cmd_success = bg_color(config['cmd']['background_color_success'])
 foreground_cmd_success = fg_color(config['cmd']['color_success'])
 
 background_reset = '%f%k'
 color = fg_color(config['base']['color'])
 
-# OS
+# PILLS
+os_pill = Pill.new(background_os, foreground_os, icon_os)
 
-os = ''
-if show_os && (darwin? || linux?)
-  os  = background_reset + arrow_os + powerline_icon_left
-  os += background_os + ' ' + foreground_os + (darwin? ? icon_darwin : icon_linux) + ' '
-  os += (show_username ? background_user : (show_folder ? background_folder : background_reset)) + arrow_os + powerline_icon_right
+user_pill = Pill.new(background_user, foreground_icon_user, icon_user,
+                     foreground_user, username)
+
+folder_pill = Pill.new(background_folder, foreground_icon_folder, icon_folder,
+                       foreground_folder, dir)
+
+git_text = nil
+if git_dir?
+  git_text = foreground_git + git_branch_name
+  git_text += ' ' + foreground_icon_dirty_git + icon_dirty if git_modified?
 end
-os_spaces = clean_str(os).size
+git_pill = Pill.new(background_git, foreground_icon_git, icon_branch,
+                    foreground_git, git_text)
 
-# USER
+date_pill = Pill.new(background_date, foreground_icon_date, icon_date,
+                     foreground_date, cur_date)
 
-user = ''
-if show_username
-  user = arrow_user + powerline_icon_left unless show_os  
-  user += background_user + foreground_icon_user + " #{icon_user} "
-  user += foreground_user + username + ' '
-  user += (show_folder ? background_folder : background_reset) + arrow_user + powerline_icon_right
-end
-user_spaces = clean_str(user).size
+background_cmd = last_exit ? background_cmd_success : background_cmd_failed
+foreground_cmd = last_exit ? foreground_cmd_success : foreground_cmd_failed
+cmd_pill = Pill.new(background_cmd, foreground_cmd, icon_bash)
 
-# FOLDER
+pill_names = { os: os_pill, user: user_pill, folder: folder_pill,
+               git: git_pill, date: date_pill, cmd: cmd_pill }
 
-# so os n
-# so user n
-# user + os s
-# s
+left_top = []
+right_top = []
+left_bottom = []
 
-folder = ''
-if show_folder
-  folder = arrow_folder + powerline_icon_left unless show_os && show_username  
-  space_before_icon = (show_os && show_username ? true : (show_os || show_username ? false : true))
-  folder += background_folder + foreground_icon_folder + (space_before_icon ? ' ' : '') + "#{icon_folder} "
-  folder += foreground_folder + dir + ' '
-  folder += background_reset + arrow_folder + powerline_icon_right
-end
-folder_spaces = clean_str(folder).size
-
-# GIT
-
-git = ''
-if git_dir? && show_git
-  git  = background_reset + arrow_git+ powerline_icon_left
-  git += background_git + foreground_icon_git + " #{icon_branch} "
-  git += foreground_git + git_branch_name + ' '
-  git += foreground_icon_dirty_git + icon_dirty + ' ' if git_modified?
-  git += (show_date ? background_date : background_reset) + arrow_git + powerline_icon_right
-end
-git_spaces = clean_str(git).size
-
-# DATE
-
-date = ''
-if show_date
-  date += arrow_date + powerline_icon_left unless git_dir? && show_git
-  date += background_date + foreground_icon_date + " #{icon_date} "
-  date += foreground_date + cur_date + ' '
-  date += background_reset + arrow_date + powerline_icon_right
-end
-date_spaces = clean_str(date).size
-
-# CMD
-
-cmd = "\n"
-if show_cmd
-  success = ARGV[0] == '0'
-  cmd += background_reset
-  cmd += ((success) ? arrow_cmd_success : arrow_cmd_failed) + powerline_icon_left
-  cmd += (success) ? background_cmd_success + foreground_cmd_success : background_cmd_failed + foreground_cmd_failed
-  cmd += " #{icon_bash} " + background_reset
-  cmd += ((success) ? arrow_cmd_success : arrow_cmd_failed) + powerline_icon_right
-  cmd += color + ' '
+config_left_top.each do |clt|
+  left_top.push(pill_names[clt.to_sym]) unless pill_names[clt.to_sym].nil?
 end
 
-spaces = size - (os_spaces + user_spaces + folder_spaces + git_spaces + date_spaces)
+config_right_top.each do |crt|
+  right_top.push(pill_names[crt.to_sym]) unless pill_names[crt.to_sym].nil?
+end
 
-puts os + user + folder + (' ' * spaces) + git + date + cmd
+config_left_bottom.each do |clb|
+  left_bottom.push(pill_names[clb.to_sym]) unless pill_names[clb.to_sym].nil?
+end
+
+# LEFT (TOP)
+left_top.delete(git_pill) if git_text.nil?
+str_left_top = ''
+left_top[0...-1].each_with_index do |l, i|
+  str_left_top += l.join(powerline_icon_left, powerline_icon_right,
+                         left_top[i + 1], i.zero?)
+end
+str_left_top += left_top[-1].join(powerline_icon_left, powerline_icon_right,
+                                  nil, left_top.size == 1)
+
+# RIGHT (TOP)
+right_top.delete(git_pill) if git_text.nil?
+str_right_top = ''
+right_top[0...-1].each_with_index do |r, i|
+  str_right_top += r.join(powerline_icon_left, powerline_icon_right,
+                          right_top[i + 1], i.zero?)
+end
+str_right_top += right_top[-1].join(powerline_icon_left, powerline_icon_right,
+                                    nil, right_top.size == 1)
+
+# LEFT (BOTTOM)
+left_bottom.delete(git_pill) if git_text.nil?
+str_left_bottom = ''
+left_bottom[0...-1].each_with_index do |l, i|
+  str_left_bottom += l.join(powerline_icon_left, powerline_icon_right,
+                            left_bottom[i + 1], i.zero?)
+end
+str_left_bottom += left_bottom[-1].join(powerline_icon_left,
+                                        powerline_icon_right, nil,
+                                        left_bottom.size == 1)
+
+spaces = size - (clean_str(str_left_top).size + clean_str(str_right_top).size)
+puts str_left_top + (' ' * spaces) + str_right_top + str_left_bottom + ' ' +
+     background_reset + color
