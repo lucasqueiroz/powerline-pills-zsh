@@ -27,6 +27,9 @@ The `left_top`, `right_top` and `left_bottom` configurations under `base` let yo
 
 ## Screenshots
 
+<details>
+<summary>Click to view the screenshots</summary>
+
 ### Default config (Non-git folder)
 
 ![Screenshot 1](https://github.com/lucasqueiroz/powerline-pills-zsh/blob/master/screenshots/screenshot_1.png?raw=true)
@@ -38,3 +41,5 @@ The `left_top`, `right_top` and `left_bottom` configurations under `base` let yo
 ### Command output
 
 ![Screenshot 3](https://github.com/lucasqueiroz/powerline-pills-zsh/blob/master/screenshots/screenshot_3.png?raw=true)
+
+</details>
