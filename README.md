@@ -5,6 +5,8 @@ It was inspired in other powerline themes, but with a "pill" feel to it.
 
 ## Installation
 
+⚠️ WARNING: If you installed this theme before January 2nd, 2018, you will need to install it again! ⚠️
+
 Ruby (tested with 1.9.3), ZSH and Oh-my-zsh are required for this theme.
 
 This requires a powerline patched font to work properly. I recommend using one of the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
