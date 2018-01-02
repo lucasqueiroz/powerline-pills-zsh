@@ -19,7 +19,7 @@ module Util
   def darwin?
     current_os.chomp == 'Darwin'
   end
-  
+
   def linux?
     current_os.chomp == 'Linux'
   end
