@@ -16,6 +16,10 @@ This requires a powerline patched font to work properly. I recommend using one o
   `./install.zsh`
 4. Reload your terminal (or open a new tab)
 
+## Configuration
+The configuration file (`config.yml`) has options for you to customize this theme.
+The `left_top`, `right_top` and `left_bottom` configurations under `base` let you configure which pills you want on each part.
+
 ## Screenshots
 
 ### Default config (Non-git folder)
