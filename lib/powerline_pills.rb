@@ -146,5 +146,6 @@ str_left_bottom += left_bottom[-1].join(powerline_icon_left,
                                         left_bottom.size == 1)
 
 spaces = size - (clean_str(str_left_top).size + clean_str(str_right_top).size)
+spaces = 0 if spaces < 0
 puts str_left_top + (' ' * spaces) + str_right_top + str_left_bottom + ' ' +
      background_reset + color
