@@ -26,7 +26,7 @@ This requires a powerline patched font to work properly. I recommend using one o
 <summary>Steps to install (manual)</summary>
 
 1. Clone this repository:  
-  `git clone git@github.com:lucasqueiroz/powerline-pills-zsh.git`
+  `git clone https://github.com/lucasqueiroz/powerline-pills-zsh.git`
 2. Cd into the folder that you cloned
 3. Copy the `powerline-pills.zsh-theme` file to your oh-my-zsh's `custom` folder (Usually found in `~/.oh-my-zsh/custom`)
 4. Edit the `~/.zshrc` file and set `powerline-pills` as the current theme
