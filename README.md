@@ -10,8 +10,7 @@ Ruby (tested with 1.9.3), ZSH and Oh-my-zsh are required for this theme.
 
 This requires a powerline patched font to work properly. I recommend using one of the [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts).
 
-<details>
-<summary>Steps to install (automatic)</summary>
+### Automatic
 
 1. Clone this repository:  
   `git clone https://github.com/lucasqueiroz/powerline-pills-zsh.git`
@@ -20,10 +19,7 @@ This requires a powerline patched font to work properly. I recommend using one o
   `./install.zsh`
 4. Reload your terminal (or open a new tab)
 
-</details>
-
-<details>
-<summary>Steps to install (manual)</summary>
+### Manual
 
 1. Clone this repository:  
   `git clone https://github.com/lucasqueiroz/powerline-pills-zsh.git`
@@ -36,8 +32,6 @@ This requires a powerline patched font to work properly. I recommend using one o
 export POWERLINE_PILLS="<powerline-pills folder>"
 ```
 Replacing `<powerline-pills folder>` with the folder that you cloned this repository into.
-
-</details>
 
 ## Configuration
 The configuration file (`config.yml`) has options for you to customize this theme.
