@@ -1,6 +1,8 @@
-# Powerline Pills Theme for ZSH
+# Powerline Pills theme for ZSH
 
 Custom ZSH theme created in Ruby, using powerline characters to simulate pills with useful information.
+
+This theme is being updated (October 2019). There will be a refactor to improve the quality of the code, reliability and the performance.
 
 ## Installation
 
