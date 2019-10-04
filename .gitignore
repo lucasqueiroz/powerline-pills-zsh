@@ -188,6 +188,3 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/vim,ruby,linux,macos,windows,sublimetext,visualstudiocode
-
-# Configuration file
-config.yml

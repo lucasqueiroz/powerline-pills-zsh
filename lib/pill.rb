@@ -1,16 +1,17 @@
 # Class that holds information about a pill
 class Pill
   attr_accessor :background, :foreground, :foreground_icon,
-                :icon, :foreground_text, :text
+                :icon, :foreground_text, :text, :hide_empty
 
   def initialize(background, foreground_icon, icon, foreground_text = '',
-                 text = '')
+                 text = '', hide_empty = false)
     @background = background
     @foreground = background.tr('K', 'F')
     @foreground_icon = foreground_icon
     @icon = icon
     @foreground_text = foreground_text
     @text = text
+    @hide_empty = hide_empty
   end
 
   def build(icon_left, first)

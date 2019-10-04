@@ -33,6 +33,7 @@ icon_branch = config['git']['icon']['char']
 icon_dirty = config['git']['icon']['char_dirty']
 icon_date = config['date']['icon']['char']
 icon_bash = config['cmd']['icon']['char']
+icon_ruby = config['ruby']['icon']['char']
 
 # COLORS
 def fg_color(color)
@@ -68,6 +69,10 @@ foreground_cmd_failed = fg_color(config['cmd']['color_failed'])
 background_cmd_success = bg_color(config['cmd']['background_color_success'])
 foreground_cmd_success = fg_color(config['cmd']['color_success'])
 
+background_ruby = bg_color(config['ruby']['background_color'])
+foreground_icon_ruby = fg_color(config['ruby']['icon']['color'])
+foreground_ruby = fg_color(config['ruby']['color'])
+
 background_reset = '%f%k'
 color = fg_color(config['base']['color'])
 
@@ -80,13 +85,13 @@ user_pill = Pill.new(background_user, foreground_icon_user, icon_user,
 folder_pill = Pill.new(background_folder, foreground_icon_folder, icon_folder,
                        foreground_folder, dir)
 
-git_text = nil
+git_text = ''
 if git_dir?
   git_text = foreground_git + git_branch_name
   git_text += ' ' + foreground_icon_dirty_git + icon_dirty if git_modified?
 end
 git_pill = Pill.new(background_git, foreground_icon_git, icon_branch,
-                    foreground_git, git_text)
+                    foreground_git, git_text, true)
 
 date_pill = Pill.new(background_date, foreground_icon_date, icon_date,
                      foreground_date, cur_date)
@@ -95,8 +100,13 @@ background_cmd = last_exit ? background_cmd_success : background_cmd_failed
 foreground_cmd = last_exit ? foreground_cmd_success : foreground_cmd_failed
 cmd_pill = Pill.new(background_cmd, foreground_cmd, icon_bash)
 
+
+ruby_pill = Pill.new(background_ruby, foreground_icon_ruby, icon_ruby,
+                     foreground_ruby, ruby_version, true)
+
 pill_names = { os: os_pill, user: user_pill, folder: folder_pill,
-               git: git_pill, date: date_pill, cmd: cmd_pill }
+               git: git_pill, date: date_pill, cmd: cmd_pill,
+               ruby: ruby_pill }
 
 left_top = []
 right_top = []
@@ -114,8 +124,15 @@ config_left_bottom.each do |clb|
   left_bottom.push(pill_names[clb.to_sym]) unless pill_names[clb.to_sym].nil?
 end
 
+pill_names.each_value do |pill|
+  if pill.text.empty? && pill.hide_empty
+    left_top.delete(pill)
+    right_top.delete(pill)
+    left_bottom.delete(pill)
+  end
+end
+
 # LEFT (TOP)
-left_top.delete(git_pill) if git_text.nil?
 str_left_top = ''
 left_top[0...-1].each_with_index do |l, i|
   str_left_top += l.join(powerline_icon_left, powerline_icon_right,
@@ -125,7 +142,6 @@ str_left_top += left_top[-1].join(powerline_icon_left, powerline_icon_right,
                                   nil, left_top.size == 1)
 
 # RIGHT (TOP)
-right_top.delete(git_pill) if git_text.nil?
 str_right_top = ''
 right_top[0...-1].each_with_index do |r, i|
   str_right_top += r.join(powerline_icon_left, powerline_icon_right,
@@ -135,7 +151,6 @@ str_right_top += right_top[-1].join(powerline_icon_left, powerline_icon_right,
                                     nil, right_top.size == 1)
 
 # LEFT (BOTTOM)
-left_bottom.delete(git_pill) if git_text.nil?
 str_left_bottom = ''
 left_bottom[0...-1].each_with_index do |l, i|
   str_left_bottom += l.join(powerline_icon_left, powerline_icon_right,

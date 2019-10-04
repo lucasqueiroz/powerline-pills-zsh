@@ -24,7 +24,7 @@ base:
   powerline_icon_left: ''
   color: 7
   left_top: ['os', 'user', 'folder']
-  right_top: ['git', 'date']
+  right_top: ['ruby', 'git', 'date']
   left_bottom: ['cmd']
 # OS Info
 os:
@@ -74,3 +74,10 @@ cmd:
   color_success: 7
   icon:
     char: ''
+# Ruby version
+ruby:
+  background_color: 1
+  color: 7
+  icon:
+    char: ' '
+    color: 15
