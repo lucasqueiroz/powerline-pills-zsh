@@ -27,4 +27,14 @@ module Util
   def clean_str(str)
     str.gsub(/\%f|%k|%F{\d+}|%K{\d+}/, '')
   end
+
+  def ruby_version
+    ruby_project? ? RUBY_VERSION : ''
+  end
+
+  private
+
+  def ruby_project?
+    Dir.glob('*.rb').size > 0 || Dir.entries('.').include?('Gemfile')
+  end
 end
