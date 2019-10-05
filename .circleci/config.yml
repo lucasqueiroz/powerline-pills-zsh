@@ -1,0 +1,16 @@
+version: 2
+jobs:
+
+  build:
+    working_directory: ~/powerline-pills-zsh
+
+    docker:
+      - image: circleci/ruby:2.6.5
+      
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - powerline-pills-zsh-{{ checksum "Gemfile.lock" }}
+            - powerline-pills-zsh-
